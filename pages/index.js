@@ -1,46 +1,49 @@
-import Card from "@/components/Card/Card";
+import Hero from "@/components/Hero/Hero";
+import Projects from "@/components/Projects/Projects";
+import fs from "fs";
+import matter from "gray-matter";
 import { Inter } from "next/font/google";
+import path from "path";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function Home() {
+export default function Home({ projects }) {
   return (
-    <div className="container mx-auto">
-      <section className="my-48">
-        <h1 className="text-3xl font-bold text-white">Oliver Aarnikoivu</h1>
-      </section>
-      <section>
-        <h2 className="text-slate-200">Projects</h2>
-        <div className="flex gap-4 flex-col my-8">
-          <Card
-            title="Robust NMT"
-            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate."
-            link=""
-          />
-          <Card
-            title="Ainoa"
-            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate."
-            link=""
-          />
-          <Card
-            title="Apollo bank"
-            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate."
-            link=""
-          />
-        </div>
+    <div className="container mx-auto px-80">
+      <Hero />
+      <section className="grid grid-cols-2 gap-4">
+        <Projects projects={projects} />
+        <Projects projects={projects} />
       </section>
     </div>
   );
+}
+
+function readProjects() {
+  const projectsDirectory = path.join(process.cwd(), "content/projects");
+  const projectFiles = fs.readdirSync(projectsDirectory);
+
+  const projects = projectFiles.map((projectFile) => {
+    const fullPath = path.join(projectsDirectory, projectFile);
+    const projectFileContents = fs.readFileSync(fullPath, "utf8");
+
+    const matterResult = matter(projectFileContents);
+
+    return {
+      id: projectFile.replace(/\.md$/, ""),
+      ...matterResult.data,
+    };
+  });
+
+  return projects;
+}
+
+export async function getStaticProps() {
+  const projects = readProjects();
+
+  return {
+    props: {
+      projects,
+    },
+  };
 }
