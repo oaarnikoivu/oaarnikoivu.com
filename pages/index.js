@@ -1,46 +1,75 @@
-import Card from "@/components/Card/Card";
-import { Inter } from "next/font/google";
-
-const inter = Inter({ subsets: ["latin"] });
+import {
+  EnvelopeClosedIcon,
+  GitHubLogoIcon,
+  LinkedInLogoIcon,
+  TwitterLogoIcon,
+} from "@radix-ui/react-icons";
+import fs from "fs";
+import matter from "gray-matter";
+import Image from "next/image";
+import Link from "next/link";
+import path from "path";
 
 export default function Home() {
   return (
-    <div className="container mx-auto">
-      <section className="my-48">
-        <h1 className="text-3xl font-bold text-white">Oliver Aarnikoivu</h1>
-      </section>
-      <section>
-        <h2 className="text-slate-200">Projects</h2>
-        <div className="flex gap-4 flex-col my-8">
-          <Card
-            title="Robust NMT"
-            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate."
-            link=""
-          />
-          <Card
-            title="Ainoa"
-            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate."
-            link=""
-          />
-          <Card
-            title="Apollo bank"
-            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate."
-            link=""
-          />
+    <div className="flex justify-between items-center">
+      <Image
+        alt=""
+        src="https://avatars.githubusercontent.com/u/22493428?s=400&u=da52e73af477adecb6fd39efdeda0e4b85860fc2&v=4"
+        width={140}
+        height={140}
+        className="rounded-full grayscale"
+      />
+      <div>
+        <h1 className="text-2xl">Oliver Aarnikoivu</h1>
+        <p className="mt-4 text-zinc-200 text-sm">
+          Hey, I'm Oliver. Born in Finland, raised in Luxembourg. Full Stack
+          Software Engineer @{" "}
+          <Link
+            href="https://nextgatetech.com/"
+            target="_blank"
+            className="text-purple-300 hover:text-purple-400"
+          >
+            Next Gate Tech
+          </Link>
+          {""}.
+        </p>
+        <div className="flex items-center gap-4 mt-8">
+          <GitHubLogoIcon width={20} height={20} />
+          <LinkedInLogoIcon width={20} height={20} />
+          <TwitterLogoIcon width={20} height={20} />
+          <EnvelopeClosedIcon width={20} height={20} />
         </div>
-      </section>
+      </div>
     </div>
   );
+}
+
+function readProjects() {
+  const projectsDirectory = path.join(process.cwd(), "content/projects");
+  const projectFiles = fs.readdirSync(projectsDirectory);
+
+  const projects = projectFiles.map((projectFile) => {
+    const fullPath = path.join(projectsDirectory, projectFile);
+    const projectFileContents = fs.readFileSync(fullPath, "utf8");
+
+    const matterResult = matter(projectFileContents);
+
+    return {
+      id: projectFile.replace(/\.md$/, ""),
+      ...matterResult.data,
+    };
+  });
+
+  return projects;
+}
+
+export async function getStaticProps() {
+  const projects = readProjects();
+
+  return {
+    props: {
+      projects,
+    },
+  };
 }
