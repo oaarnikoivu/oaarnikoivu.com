@@ -4,7 +4,6 @@ export default function Projects({ projects }) {
   return (
     <>
       <h1 className="text-2xl">Projects</h1>
-
       <section className="mt-4">
         <div className="divide-y divide-zinc-600">
           {projects.map((project) => (

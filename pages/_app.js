@@ -1,8 +1,7 @@
-import Navigation from "@/components/Navigation/Navigation";
+import Navigation from "@/components/Navigation";
 import "@/styles/globals.css";
-import { Inter, Kaisei_Decol } from "next/font/google";
+import { Inter } from "next/font/google";
 
-const fontBold = Kaisei_Decol({ subsets: ["latin"], weight: "700" });
 const font = Inter({ subsets: ["latin"] });
 
 export default function App({ Component, pageProps }) {
