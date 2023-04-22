@@ -50,7 +50,6 @@ export default function App({ Component, pageProps }) {
           </div>
         </main>
       </div>
-      {/* <Component {...pageProps} /> */}
     </>
   );
 }
