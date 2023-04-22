@@ -1,14 +1,6 @@
-import {
-  EnvelopeClosedIcon,
-  GitHubLogoIcon,
-  LinkedInLogoIcon,
-  TwitterLogoIcon,
-} from "@radix-ui/react-icons";
-import fs from "fs";
-import matter from "gray-matter";
+import Social from "@/components/Social";
 import Image from "next/image";
 import Link from "next/link";
-import path from "path";
 
 export default function Home() {
   return (
@@ -34,42 +26,8 @@ export default function Home() {
           </Link>
           {""}.
         </p>
-        <div className="flex items-center gap-4 mt-8">
-          <GitHubLogoIcon width={20} height={20} />
-          <LinkedInLogoIcon width={20} height={20} />
-          <TwitterLogoIcon width={20} height={20} />
-          <EnvelopeClosedIcon width={20} height={20} />
-        </div>
+        <Social />
       </div>
     </div>
   );
-}
-
-function readProjects() {
-  const projectsDirectory = path.join(process.cwd(), "content/projects");
-  const projectFiles = fs.readdirSync(projectsDirectory);
-
-  const projects = projectFiles.map((projectFile) => {
-    const fullPath = path.join(projectsDirectory, projectFile);
-    const projectFileContents = fs.readFileSync(fullPath, "utf8");
-
-    const matterResult = matter(projectFileContents);
-
-    return {
-      id: projectFile.replace(/\.md$/, ""),
-      ...matterResult.data,
-    };
-  });
-
-  return projects;
-}
-
-export async function getStaticProps() {
-  const projects = readProjects();
-
-  return {
-    props: {
-      projects,
-    },
-  };
 }
