@@ -16,8 +16,8 @@ export default function Home() {
         <div>
           <h1 className="text-2xl">Oliver Aarnikoivu</h1>
           <p className="mt-4">
-            Hey, I'm Oliver. Born in Finland, raised in Luxembourg. Full Stack
-            Software Engineer at{" "}
+            Hey, I&apos;m Oliver. Born in Finland, raised in Luxembourg. Full
+            Stack Software Engineer at{" "}
             <UnderlineLink
               href="https://www.nextgatetech.com/"
               text="Next Gate Tech"
