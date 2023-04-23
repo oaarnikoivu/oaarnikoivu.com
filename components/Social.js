@@ -23,19 +23,35 @@ function RedditIcon() {
 export default function Social() {
   return (
     <div className="flex items-center gap-4 mt-8">
-      <Link href="https://www.github.com/oaarnikoivu" target="_blank">
+      <Link
+        href="https://www.github.com/oaarnikoivu"
+        target="_blank"
+        aria-label="GitHub"
+      >
         <GitHubLogoIcon width={20} height={20} />
       </Link>
-      <Link href="https://www.linkedin.com/in/oaarnikoivu/" target="_blank">
+      <Link
+        href="https://www.linkedin.com/in/oaarnikoivu/"
+        target="_blank"
+        aria-label="LinkedIn"
+      >
         <LinkedInLogoIcon width={20} height={20} />
       </Link>
-      <Link href="https://www.twitter.com/oaarnikoivu" target="_blank">
+      <Link
+        href="https://www.twitter.com/oaarnikoivu"
+        target="_blank"
+        aria-label="Twitter"
+      >
         <TwitterLogoIcon width={20} height={20} />
       </Link>
       <Link href="https://www.reddit.com/user/embeddings" target="_blank">
         <RedditIcon />
       </Link>
-      <Link href="mailto:oliveraarnikoivu@icloud.com" target="_blank">
+      <Link
+        href="mailto:oliveraarnikoivu@icloud.com"
+        target="_blank"
+        aria-label="Email"
+      >
         <EnvelopeClosedIcon width={20} height={20} />
       </Link>
     </div>
