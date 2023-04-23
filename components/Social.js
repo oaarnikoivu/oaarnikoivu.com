@@ -44,7 +44,11 @@ export default function Social() {
       >
         <TwitterLogoIcon width={20} height={20} />
       </Link>
-      <Link href="https://www.reddit.com/user/embeddings" target="_blank">
+      <Link
+        href="https://www.reddit.com/user/embeddings"
+        target="_blank"
+        aria-label="Reddit"
+      >
         <RedditIcon />
       </Link>
       <Link
