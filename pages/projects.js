@@ -2,9 +2,9 @@ import Link from "next/link";
 
 export default function Projects({ projects }) {
   return (
-    <>
+    <section>
       <h1 className="text-2xl">Projects</h1>
-      <section className="mt-4">
+      <div className="mt-4">
         <div className="divide-y divide-zinc-600">
           {projects.map((project) => (
             <div key={project.id} className="pt-4 pb-4">
@@ -30,17 +30,22 @@ export default function Projects({ projects }) {
             </div>
           ))}
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }
 
 export async function getStaticProps() {
   const res = await fetch("https://api.github.com/users/oaarnikoivu/repos");
-  let projects = await res.json();
-  projects = projects
-    .filter((project) => !!project.description)
-    .sort((a, b) => b.stargazers_count - a.stargazers_count);
+
+  let projects = [];
+
+  if (res.ok) {
+    projects = await res.json();
+    projects = projects
+      .filter((project) => !!project.description)
+      .sort((a, b) => b.stargazers_count - a.stargazers_count);
+  }
 
   return {
     props: {
