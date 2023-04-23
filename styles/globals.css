@@ -12,7 +12,9 @@ h1 {
 }
 
 p {
+  @apply text-zinc-300 text-sm;
   letter-spacing: 0.01em;
+  line-height: 1.75;
 }
 
 a {
