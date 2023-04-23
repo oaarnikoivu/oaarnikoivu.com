@@ -10,13 +10,12 @@ export default function Projects({ projects }) {
             <div key={project.id} className="pt-4 pb-4">
               <Link
                 href={project.html_url}
+                target="_blank"
                 className="text-lg text-zinc-200 hover:text-white font-bold"
               >
                 {project.name}
               </Link>
-              <p className="text-sm text-zinc-200 mt-2">
-                {project.description}
-              </p>
+              <p className="mt-2">{project.description}</p>
               <div className="flex items-center flex-wrap gap-2 mt-4">
                 {project.topics.map((topic) => (
                   <div
