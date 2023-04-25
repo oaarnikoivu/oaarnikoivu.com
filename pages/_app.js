@@ -1,5 +1,6 @@
 import Navigation from "@/components/Navigation";
 import "@/styles/globals.css";
+import { Analytics } from "@vercel/analytics/react";
 import { Inter } from "next/font/google";
 import "../styles/globals.css";
 
@@ -23,6 +24,7 @@ export default function App({ Component, pageProps }) {
           </div>
         </main>
       </div>
+      <Analytics />
     </>
   );
 }
