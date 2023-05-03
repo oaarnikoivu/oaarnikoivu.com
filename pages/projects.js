@@ -1,5 +1,5 @@
 import Dropdown from "@/components/Dropdown";
-import { Cross2Icon } from "@radix-ui/react-icons";
+import { CrossCircledIcon } from "@radix-ui/react-icons";
 import Head from "next/head";
 import Link from "next/link";
 import { useState } from "react";
@@ -7,8 +7,10 @@ import { useState } from "react";
 export default function Projects({ projects, topics }) {
   const [displayProjects, setDisplayProjects] = useState(projects);
   const [filterText, setFilterText] = useState(null);
+  const [selectedTopic, setSelectedTopic] = useState("all");
 
   const handleSelectTopic = (topic) => {
+    setSelectedTopic(topic);
     if (topic === "all") {
       setDisplayProjects(projects);
       setFilterText(null);
@@ -35,23 +37,27 @@ export default function Projects({ projects, topics }) {
           <Dropdown
             options={["all"].concat(topics)}
             onSelectOption={handleSelectTopic}
+            selectedOption={selectedTopic}
           />
         </div>
 
         {filterText && (
-          <div className="flex items-center justify-between mt-3">
-            <p>{filterText}</p>
-            <button
-              className="flex items-center gap-2 text-zinc-200 hover:text-white"
-              onClick={() => {
-                setDisplayProjects(projects);
-                setFilterText(null);
-              }}
-            >
-              <Cross2Icon width={18} height={18} />
-              <span>Clear filter</span>
-            </button>
-          </div>
+          <>
+            <div className="flex items-center justify-between mt-3 flex-wrap gap-4">
+              <span className="text-md">{filterText}</span>
+              <button
+                className="flex items-center gap-2 text-zinc-200 hover:text-white"
+                onClick={() => {
+                  setDisplayProjects(projects);
+                  setFilterText(null);
+                  setSelectedTopic("all");
+                }}
+              >
+                <CrossCircledIcon width={20} height={20} />
+                <span className="text-md">Clear filter</span>
+              </button>
+            </div>
+          </>
         )}
 
         <div className="mt-4">
