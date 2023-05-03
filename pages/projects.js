@@ -1,17 +1,68 @@
+import Dropdown from "@/components/Dropdown";
+import { CrossCircledIcon } from "@radix-ui/react-icons";
 import Head from "next/head";
 import Link from "next/link";
+import { useState } from "react";
 
-export default function Projects({ projects }) {
+export default function Projects({ projects, topics }) {
+  const [displayProjects, setDisplayProjects] = useState(projects);
+  const [filterText, setFilterText] = useState(null);
+  const [selectedTopic, setSelectedTopic] = useState("all");
+
+  const handleSelectTopic = (topic) => {
+    setSelectedTopic(topic);
+    if (topic === "all") {
+      setDisplayProjects(projects);
+      setFilterText(null);
+    } else {
+      const newProjects = projects.filter((project) =>
+        project.topics.includes(topic)
+      );
+      setDisplayProjects(newProjects);
+      setFilterText(
+        `${newProjects.length} result(s) for projects with ${topic}`
+      );
+    }
+  };
+
   return (
     <>
       <Head>
         <title>Oliver Aarnikoivu - Projects</title>
       </Head>
+
       <section>
-        <h1 className="text-2xl">Projects</h1>
+        <div className="flex items-center justify-between">
+          <h1 className="text-2xl">Projects</h1>
+          <Dropdown
+            options={["all"].concat(topics)}
+            onSelectOption={handleSelectTopic}
+            selectedOption={selectedTopic}
+          />
+        </div>
+
+        {filterText && (
+          <>
+            <div className="flex items-center justify-between mt-3 flex-wrap gap-4">
+              <span className="text-md">{filterText}</span>
+              <button
+                className="flex items-center gap-2 text-zinc-200 hover:text-white"
+                onClick={() => {
+                  setDisplayProjects(projects);
+                  setFilterText(null);
+                  setSelectedTopic("all");
+                }}
+              >
+                <CrossCircledIcon width={20} height={20} />
+                <span className="text-md">Clear filter</span>
+              </button>
+            </div>
+          </>
+        )}
+
         <div className="mt-4">
           <div className="divide-y divide-zinc-600">
-            {projects.map((project) => (
+            {displayProjects.map((project) => (
               <div key={project.id} className="pt-4 pb-4">
                 <Link
                   href={project.html_url}
@@ -44,17 +95,21 @@ export async function getStaticProps() {
   const res = await fetch("https://api.github.com/users/oaarnikoivu/repos");
 
   let projects = [];
+  let topics = [];
 
   if (res.ok) {
     projects = await res.json();
     projects = projects
       .filter((project) => !!project.description)
       .sort((a, b) => b.stargazers_count - a.stargazers_count);
+    topics = projects.map((project) => project.topics).flat();
+    topics = [...new Set(topics)];
   }
 
   return {
     props: {
       projects,
+      topics,
     },
   };
 }
