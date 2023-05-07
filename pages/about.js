@@ -29,15 +29,10 @@ export default function About() {
           Intelligence.
         </p>
         <p className="mt-6">
-          In my spare time I enjoy tinkering with new technologies, flaneuring,
-          going on long walks, spending time with friends, reading up on random
-          topics that I find interesting, and occasionally, lifting weights.
-        </p>
-        <p className="mt-6">
           This website is primarily used to showcase my experiments with new
-          tools & technologies. From time to time, I may express my thoughts and
-          write about something random related to my interests, which you can
-          find under the <UnderlineLink href="/blog" text="Blog" /> page.
+          tools & technologies. From time to time, I may write about something
+          random related to my interests, which you can find under the{" "}
+          <UnderlineLink href="/blog" text="Blog" /> page.
         </p>
 
         <p className="mt-6">
