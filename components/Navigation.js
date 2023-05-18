@@ -1,53 +1,44 @@
-import Link from "next/link";
-import { useRouter } from "next/router";
+"use client";
 
-function NavigationItem({ title, path, currentPath }) {
-  return (
-    <Link
-      href={path}
-      className={`p-2 rounded-md  ${
-        currentPath === path
-          ? "bg-zinc-800 text-white"
-          : "bg-zinc-900 text-zinc-300"
-      } font-bold transition-all ease-in duration-300 hover:text-white`}
-    >
-      {title}
-    </Link>
-  );
-}
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
+const navigationItems = [
+  {
+    title: "Home",
+    path: "/",
+  },
+  {
+    title: "About",
+    path: "/about",
+  },
+  {
+    title: "Projects",
+    path: "/projects",
+  },
+  {
+    title: "Blog",
+    path: "/blog",
+  },
+];
 
 export default function Navigation() {
-  const page = useRouter();
-  const pathname = page.pathname;
-
-  const navigationItems = [
-    {
-      title: "Home",
-      path: "/",
-    },
-    {
-      title: "About",
-      path: "/about",
-    },
-    {
-      title: "Projects",
-      path: "/projects",
-    },
-    {
-      title: "Blog",
-      path: "/blog",
-    },
-  ];
+  const currentPath = usePathname();
 
   return (
     <div className="flex items-center gap-4 pb-8">
       {navigationItems.map((item) => (
-        <NavigationItem
+        <Link
           key={item.title}
-          title={item.title}
-          path={item.path}
-          currentPath={pathname}
-        />
+          href={item.path}
+          className={`p-2 rounded-md  ${
+            currentPath === item.path
+              ? "bg-zinc-800 text-white"
+              : "bg-zinc-900 text-zinc-300"
+          } font-bold transition-all ease-in duration-300 hover:text-white`}
+        >
+          {item.title}
+        </Link>
       ))}
     </div>
   );
