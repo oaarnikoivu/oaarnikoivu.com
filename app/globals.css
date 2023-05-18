@@ -16,7 +16,7 @@ p {
     line-height: 1.75;
   }
   
-  a {
+  a, button, li {
     transition: all 0.2s ease-in-out;
   }
   
