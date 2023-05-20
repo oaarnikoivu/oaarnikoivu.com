@@ -5,10 +5,11 @@ import { CrossCircledIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import { useState } from "react";
 
-export default function Projects({ projects, topics }) {
+export default function Projects({ projects, topics, languages }) {
   const [displayProjects, setDisplayProjects] = useState(projects);
   const [filterText, setFilterText] = useState(null);
   const [selectedTopic, setSelectedTopic] = useState("all");
+  const [selectedLanguage, setSelectedLanguage] = useState("all");
 
   const handleSelectTopic = (topic) => {
     setSelectedTopic(topic);
@@ -26,15 +27,40 @@ export default function Projects({ projects, topics }) {
     }
   };
 
+  const handleSelectLanguage = (language) => {
+    setSelectedLanguage(language);
+    if (language === "all") {
+      setDisplayProjects(projects);
+      setFilterText(null);
+    } else {
+      const newProjects = projects.filter((project) =>
+        project.languages.includes(language)
+      );
+      setDisplayProjects(newProjects);
+      setFilterText(
+        `${newProjects.length} result(s) for projects with ${language}`
+      );
+    }
+  };
+
   return (
     <section>
       <div className="flex items-center justify-between">
         <h1 className="text-2xl">Projects</h1>
-        <Dropdown
-          options={["all"].concat(topics)}
-          onSelectOption={handleSelectTopic}
-          selectedOption={selectedTopic}
-        />
+        <div className="flex items-center gap-2">
+          <Dropdown
+            title="Language"
+            options={["all"].concat(languages)}
+            onSelectOption={handleSelectLanguage}
+            selectedOption={selectedLanguage}
+          />
+          <Dropdown
+            title="Topic"
+            options={["all"].concat(topics)}
+            onSelectOption={handleSelectTopic}
+            selectedOption={selectedTopic}
+          />
+        </div>
       </div>
 
       {filterText && (
@@ -47,6 +73,7 @@ export default function Projects({ projects, topics }) {
                 setDisplayProjects(projects);
                 setFilterText(null);
                 setSelectedTopic("all");
+                setSelectedLanguage("all");
               }}
             >
               <CrossCircledIcon width={20} height={20} />

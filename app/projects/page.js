@@ -1,5 +1,5 @@
 import Projects from "@/components/projects";
-import { getGithubRepos } from "@/lib/github";
+import { getGithub } from "@/lib/github";
 import { Suspense } from "react";
 
 export const metadata = {
@@ -7,11 +7,11 @@ export const metadata = {
 };
 
 export default async function ProjectsPage() {
-  const { projects, topics } = await getGithubRepos();
+  const { projects, topics, languages } = await getGithub();
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <Projects projects={projects} topics={topics} />
+      <Projects projects={projects} topics={topics} languages={languages} />
     </Suspense>
   );
 }

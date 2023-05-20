@@ -2,7 +2,7 @@ import { CaretDownIcon, CheckIcon } from "@radix-ui/react-icons";
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
-function Dropdown({ options, onSelectOption, selectedOption }) {
+function Dropdown({ title, options, onSelectOption, selectedOption }) {
   const [open, setOpen] = useState(false);
 
   const dropdownRef = useRef(null);
@@ -41,7 +41,7 @@ function Dropdown({ options, onSelectOption, selectedOption }) {
         onClick={handleOpen}
       >
         <div className="flex items-center gap-2">
-          <span className="font-bold">Topic</span>
+          <span className="font-bold">{title}</span>
           <motion.div
             animate={{ rotate: open ? 180 : 0 }}
             transition={{ duration: 0.2, type: "tween" }}
